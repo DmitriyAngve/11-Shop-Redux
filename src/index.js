@@ -20,4 +20,7 @@ root.render(
 // 4.2 Wrap that around "App" and prop our "store".
 // 4.3 For that import store.
 // 4.4 Add to Provider prop "store={store}"
+
+// For show the cart area we need work with Cart Button
+// GO TO Cartutton.js --->>>
 // 252 REFRESHER / PRACTICE
