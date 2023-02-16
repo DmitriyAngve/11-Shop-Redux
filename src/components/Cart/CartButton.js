@@ -34,5 +34,5 @@ export default CartButton;
 // 5.8 Then (in dispatch) simply dispatch the action, which is created by the "uiActions" toggle action creator. /// "dispatch(uiActions.toggle())"
 // Here I executed toggle() because these auto-generated actions, which you get here, are actually action creator methods, which you have to execute and when you execute them, they return actions objects. So it's then this returned action object which we dispatch here.
 
-// GO TO App.js --- >>>
+// GO TO App.js --- >>> Because that is where we render that Cart!!!
 // 252 REFRESHER / PRACTICE
