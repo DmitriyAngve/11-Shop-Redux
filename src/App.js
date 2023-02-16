@@ -29,4 +29,4 @@ export default App;
 // 6,5 Now use this constant to conditionally show or hide this cart component.
 // 252 REFRESHER / PRACTICE
 
-// Let's go to cart-slice.js
+// Let's go to cart-slice.js ---- >>>>>
