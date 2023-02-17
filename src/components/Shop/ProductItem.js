@@ -57,3 +57,9 @@ export default ProductItem;
 // GO TO CartButton.js --->>>
 
 // 253 REFRESHER / PRACTICE
+
+// 256 LOGIC
+// STEP 1:
+// Let's start with the component to put our logic. In ProductItem.js has "addToCartHandler", where we send a request.
+// 1.1 import "useSelector"
+// 256 LOGIC
