@@ -54,6 +54,6 @@ export default ProductItem;
 
 // Let's start with the batch
 
-// GO TO --->>>
+// GO TO CartButton.js --->>>
 
 // 253 REFRESHER / PRACTICE

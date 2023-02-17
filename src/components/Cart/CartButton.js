@@ -1,9 +1,10 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import classes from "./CartButton.module.css";
 import { uiActions } from "../../store/ui-slice";
 
 const CartButton = (props) => {
   const dispatch = useDispatch();
+  const cartQuantity = useSelector((state) => state.cart.totalQuantity);
 
   const toggleCartHandler = () => {
     dispatch(uiActions.toggle());
@@ -12,7 +13,7 @@ const CartButton = (props) => {
   return (
     <button className={classes.button} onClick={toggleCartHandler}>
       <span>My Cart</span>
-      <span className={classes.badge}>1</span>
+      <span className={classes.badge}>{cartQuantity}</span>
     </button>
   );
 };
@@ -36,3 +37,19 @@ export default CartButton;
 
 // GO TO App.js --- >>> Because that is where we render that Cart!!!
 // 252 REFRESHER / PRACTICE
+
+//////////////////////////////////////////////////////////////////////
+
+// 253 REFRESHER / PRACTICE
+
+// CAME FROM ProductItems.js
+
+// STEP 7:
+// 7.1 Here we also need data from the cart, we need to "totalQuantity" => I add "state.totalQuantity++" and "state.totalQuantity--" in cart-slice.js
+// 7.2 We can now after "7.1" read data from the state by also importing "useSelector" /// "import { useDispatch, useSelector } from "react-redux";" and selecting a piece of data.
+// 7.3 Call "useSelector()" and pass is function for selecting data from the "state" and dive into "state.cart", because in index.js ("...cart: cartSlice.reducer}") we gave this a cart key, and then into the properties we set up in the "state" of "cartSlice" in cart-slice.js - where we take a "totalQuantity"
+// 7.4 "const cartQuantity = useSelector((state) => state.cart.totalQuantity);" - store in variable.
+// 7.5 And now this "cartQuantity" which will output in "<span className={classes.badge}>{cartQuantity}</span>"
+
+// Now let's make sure we rendered this cart correctly. For that, we need to go to the Cart.js file --->>> GO TO
+// 253 REFRESHER / PRACTICE
