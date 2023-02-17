@@ -23,11 +23,20 @@ const cart = createSlice({
         existingItem.totalPrice = existingItem.totalPrice + newItem.price;
       }
     },
-    removeItemFromCart() {},
+    removeItemFromCart(state, action) {
+      const id = action.payload;
+      const existingItem = state.items.find((item) => item.id === id);
+      if (existingItem.quantity === 1) {
+        state.items = state.items.filter((item) => item.id !== id);
+      } else {
+        existingItem.quantity--;
+        existingItem.totalPrice = existingItem.totalPrice - existingItem.price;
+      }
+    },
   },
 });
 
-export const cartActions = cart.actions;
+export const cartActions = createSlice.actions;
 
 export default cart;
 
@@ -48,3 +57,18 @@ export default cart;
 // 7.10 Let's push new object to array ("items: []") whre we have an "itemID" field which is "newItem.id", where we have a price field (price:newItem.price), expecting a price filed on all our products. Then the "quantity:1" (1 - because if we add an item for the first time, the quantity will be one)$ and "totalPrice: newItem.price" and "name: newItem.title"
 // 7.11 Add "else" case: update "existingItem.quantity"
 // 252 REFRESHER / PRACTICE
+
+///////////////////////////////////////////////////
+
+// 253 REFRESHER / PRACTICE
+// STEP 1:
+// 1.1 For removeItems from the cart we wanna get a "state" and "action", because we'll get some extra payload that heps us identify the ite, that should be removed. Add "state" and "action" /// "removeItemFromCart(state, action) {},"
+// 1.2 In "removeItemFromCart" add const id. We nee d find and remove it from the array /// "const id = action.payload"
+// 1.3 Now we don't need to check if it's part of the array, we need to find out how many items are in the array. /// "const existingItem = state.items.find((item) => item.id === id);" id - as a payload.
+// 1.4 "ifcheck" /// "if (existingItem.quantity === 1) {" if "1" then we wanna remove this item from the array. If greater than "1" we just reduce the quantity by one. /// "} else {existingItem.quantity--;}"
+// 1.5 If the quantity is one, we wanna remove the item from the array. /// "state.items = state.items.filter();" and then filter out that one item that we wanna remove. That's overwrite the array of items with a new array where this item, which we wanna remove will be missing. It will be missing because we filter for the item where "item.id !== id". /// "state.items = state.items.filter((item) => item.id !== id);"
+// So i keep all items, where the ids do not matcdh the one id, we're trying to remove. One items remve from the array whilst keeping all the other items.
+// 1.6 Need to update existingItem.totalPrice /// "existingItem.totalPrice = existingItem.totalPrice - existingItem.price;"
+// 1.7 Store and export with actions
+// NOW GO TO ./store/index.js --->>>
+// 253 REFRESHER / PRACTICE
