@@ -42,4 +42,12 @@ export default Cart;
 // In cart-slice.js we do have a price, quantity, totalPrice, and therefore we now just need to translate those properties, which we have in our Redux store and Redux state to the properties expected here.
 // 8.5 We do it on the fly (using keys from cart-slice.js in "addToCartItem")(item is the data coming from Redux): "title: item.name" / "quantity: item.quantity" / "totalPrice: item.totalPrice" / "price:item.price"
 // So, that's now the item which we pass into CartItem for every item we're getting from Redux here.
+// 8.6 "key={item.id}"
+
+// GO TO CartItem.js --->>> active minus and plus button
+
+// CAME FROM CartButton.js
+// STEP 9:
+// 9.7 In itemobject, which we're creating I'll add the id field and use "item={{id: item.id,title: item.name,"
+// GO BACK ---> CartItem.js
 // 253 REFRESHER / PRACTICE
