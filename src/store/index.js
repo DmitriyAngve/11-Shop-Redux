@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import uiSlice from "./ui-slice";
+import cartSlice from "./cart-slice";
 
 const store = configureStore({
-  reducer: { ui: uiSlice.reducer },
+  reducer: { ui: uiSlice.reducer, cart: cartSlice.reducer },
 });
 
 export default store;
@@ -31,3 +32,14 @@ export default store;
 // GO TO .src/index.js --->>>
 
 // 252 REFRESHER / PRACTICE
+
+//////////////////////////////////////////////////////////////////
+
+// 253 REFRESHER / PRACTICE
+// CAME FROM cart-slice.js
+//
+// STEP 2:
+// 2.1 Here I wanna merge this new Slice into my overall Redux store for that I need import "cartSlice".
+// 2.2 And update this as a number of reducer in my reducer map /// "reducer: { ui: uiSlice.reducer, cart: cartSlice.reducer }," - wired up!
+// GO TO Products.js --->>> there I need to add more products
+// 253 REFRESHER / PRACTICE
