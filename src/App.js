@@ -1,16 +1,17 @@
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import Cart from "./components/Cart/Cart";
 import Layout from "./components/Layout/Layout";
 import Products from "./components/Shop/Products";
 import { uiActions } from "./store/ui-slice";
+import Notification from "./components/UI/Notification";
 
 function App() {
   const dispatch = useDispatch();
-
   const showCart = useSelector((state) => state.ui.cartIsVisible);
   const cart = useSelector((state) => state.cart);
+  const notification = useSelector((state) => state.ui.notification);
 
   useEffect(() => {
     const sendCartData = async () => {
@@ -41,14 +42,32 @@ function App() {
         })
       );
     };
-    sendCartData().catch();
-  }, [cart]);
+
+    sendCartData().catch((error) => {
+      dispatch(
+        uiActions.showNotification({
+          status: "error",
+          title: "Error!",
+          message: "Sending cart data failed!",
+        })
+      );
+    });
+  }, [cart, dispatch]);
 
   return (
-    <Layout>
-      {showCart && <Cart />}
-      <Products />
-    </Layout>
+    <Fragment>
+      {notification && (
+        <Notification
+          status={notification.status}
+          title={notification.title}
+          message={notification.message}
+        />
+      )}
+      <Layout>
+        {showCart && <Cart />}
+        <Products />
+      </Layout>
+    </Fragment>
   );
 }
 
@@ -108,5 +127,17 @@ export default App;
 // 3.5 Getting rid the "const responseData = await response.json()" actually don't care about the response data in this case, because for sending the card I'm not interesting in any response. Instead knowing that we don't have an error is enough. So then I want to "dispatch" a new notification where the status is success and it should be success because I'm using that instead of the notification component then to adjust the CSS classes.
 // Now, if we have an error, I also wanna dispatch and I'll do that instead of throwing an error I'll instead dispatch a new action where Isay error
 
-// 3.6 Go below this "sendCartData" function which we defined, executed under the "dispatch" with "success" message. And then call ".catch()" to catch any errors that might be thrown from inside this function since it's an async function, this send cart data function returns a promise,
+// 3.6 Go below this "sendCartData" function which we defined, executed under the "dispatch" with "success" message. And then call ".catch()" to catch any errors that might be thrown from inside this function since it's an async function, this send cart data function returns a promise, so we can call ".catch()" on it. We catch any error we might be getting here, and I then dispatch my show notification action with the error in here.
+// 3.7 Add dispatch: "...}, [cart, dispatch]);", because dispatch also a dependency now. The dispatch function created by "useDispatch".
+// We can safle add it to the dependecies array, because React-Redux will ensure that this is a function which will never change, so dispatch will never trigger this effect to rerun only card changes will.
+
+// STEP 4:
+// 4.1 Now just need to use this new notification UI state. And i also wanna to use data and App.js (already import useSelector). And now I want to also select my notification status with "useSelector" /// "onst notification = useSelector((state) => state.ui.notification);" ///
+// I get that "notification" property and that's either null initially, or it's an object as set by us as this patched by us ann therefore now we can use notification to conditionally rendered a notification component and to then provide extra data to the notifictaion component.
+
+// 4.2 Now for rendering the notification component, I'll start by imoprting "Fragment" from React, because I want to render the notification components side-by-side to layout and since adjacent JSX isn't allowed I'll use "Fragment" and wrap that around layout /// "import { Fragment, useEffect } from "react";"
+// 4.3 Add "<Notification />" after import it. /// "import Notification from "./components/UI/Notification";"
+// And only render notification if we have a notification.
+// 4.4 Now I'll check if notification is truthy, and only if it is I render "notification" /// "{notification && <Notification />}"
+// 4.5 And then I set the status (it's from ui-slice.js): "status={notification.status}" and for "title" and "message".
 // 259 HANDLING HTTP STATES & FEEDBACK
