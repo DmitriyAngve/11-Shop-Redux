@@ -4,8 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import Cart from "./components/Cart/Cart";
 import Layout from "./components/Layout/Layout";
 import Products from "./components/Shop/Products";
-import { uiActions } from "./store/ui-slice";
 import Notification from "./components/UI/Notification";
+import { sendCartData } from "./store/cart-slice";
 
 let isInitial = true;
 
@@ -16,49 +16,12 @@ function App() {
   const notification = useSelector((state) => state.ui.notification);
 
   useEffect(() => {
-    const sendCartData = async () => {
-      dispatch(
-        uiActions.showNotification({
-          status: "pending",
-          title: "Sending!",
-          message: "Sending cart data!",
-        })
-      );
-      const response = await fetch(
-        "https://react-reduxtk-ordermeals-default-rtdb.firebaseio.com/cart.json",
-        {
-          method: "PUT",
-          body: JSON.stringify(cart),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Sending cart data failed");
-      }
-
-      dispatch(
-        uiActions.showNotification({
-          status: "success",
-          title: "Success!",
-          message: "Sending cart data successfully!",
-        })
-      );
-    };
-
     if (isInitial) {
       isInitial = false;
       return;
     }
 
-    sendCartData().catch((error) => {
-      dispatch(
-        uiActions.showNotification({
-          status: "error",
-          title: "Error!",
-          message: "Sending cart data failed!",
-        })
-      );
-    });
+    dispatch(sendCartData(cart));
   }, [cart, dispatch]);
 
   return (
@@ -152,3 +115,27 @@ export default App;
 // 5.1 I wanna make sure that we don't send the cart when this runs for the first time. For impementing this we could add a variable here outside of our function ("App") /// "let isInitial = true;" - defined outside and doesn't change, and it's not re initialized if the compoennt renders again! (this e initialized when this file is parsed for the first time)
 // 5.2 I can use this initial to check if "isInitial" and if that's the case I'll return. I'll not continue so I'll not send my cart data. - this only blocks this cart data from being sent the first time this effect executes so application started.
 // 259 HANDLING HTTP STATES & FEEDBACK
+
+// 260 USING AN ACTION CREATOR THUNK
+// Before we start fetching data let's have a look at the alternative,of putting all that side effect logic into our component.
+// "uiActions.showNotification({..." - "showNotification" it's action creator!
+// We get those action creators automatically by Redux TK. And we call them, to create the action objects which we "dispatch"
+// custom creators thunks!
+// Now i move "sendCartData" out of the component for this GO TO ui-slice.js --->>>
+
+// CAME FROM cart-slice.js
+// STEP 2:
+// 2.1 Grab first "dispatch" action with "pendng!"
+
+// CAME FROM cart-slice.js
+
+// STEP 3:
+// 3.1 Cleanup function "sendCartData" in "useEffect".
+// 3.2 Rid out import of "uiActions".
+// 3.3 Keep that "isInitial" code. where I return and set "isinitial" to false.
+// I wanna use "sendCartData" from cart-slice.js as a action creator.
+// Here, in App.js, I still wanna dispatch, after "ifcheck", dispatch "sendCartData" from cart-slice.js actions. Dont forget "export" it.
+// 3.4 import "sendCartData" /// "import { sendCartData } from "./store/cart-slice"
+// 3.5 In here in "useEffect" I dispatch "sendCartData" /// "dispatch(sendCartData(cart));"
+// 3.6 And execute this "sendCartData" and pass my "cart" as an argument.
+// 260 USING AN ACTION CREATOR THUNK

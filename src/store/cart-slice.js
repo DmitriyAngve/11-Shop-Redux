@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { uiActions } from "./ui-slice";
 
 const cartSlice = createSlice({
   name: "cart",
@@ -36,6 +37,51 @@ const cartSlice = createSlice({
     },
   },
 });
+
+export const sendCartData = (cart) => {
+  return async (dispatch) => {
+    dispatch(
+      uiActions.showNotification({
+        status: "pending",
+        title: "Sending!",
+        message: "Sending cart data!",
+      })
+    );
+
+    const sendRequest = async () => {
+      const response = await fetch(
+        "https://react-reduxtk-ordermeals-default-rtdb.firebaseio.com/cart.json",
+        {
+          method: "PUT",
+          body: JSON.stringify(cart),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Sending cart data failed");
+      }
+    };
+
+    try {
+      await sendRequest();
+      dispatch(
+        uiActions.showNotification({
+          status: "success",
+          title: "Success!",
+          message: "Sending cart data successfully!",
+        })
+      );
+    } catch (error) {
+      dispatch(
+        uiActions.showNotification({
+          status: "error",
+          title: "Error!",
+          message: "Sending cart data failed!",
+        })
+      );
+    }
+  };
+};
 
 export const cartActions = cartSlice.actions;
 
@@ -80,3 +126,31 @@ export default cartSlice;
 // 255 FONTEND VS BACKEND CODE
 
 //
+
+// 260 USING AN ACTION CREATOR THUNK
+
+// CAME FROM App.js
+// Now for create action creator, we can go to the end of the file after this "cartSlice", that's important! So outside of the slice object, and there we can create a new function.
+// STEP 1:
+// 1.1 Create function "sendCartData" in this function we expect the "cartData" /// "const sendCartData = (cart) => {}"
+// 1.2 Now we could write this as a cation creator, by now returning an action object in here. For all reducers methods Rudex TK creates action creators automatically for us by using that reducer function name (that's what's inside ".actions").
+// 1.3 In this function we need returns another function. This function should receive the "dispatch" function as a argument. Inside of this returned function we can then therefore, "dispatch", the actual action we wanna perfom (showing a notification or adding a cart item).
+// Before we call "dispatch()" we can perfom any async code, any side effects, because we will not yet, have reached our reducer. (It's a separate standalone JS function)
+// GO TO App.js --->>>
+
+// CAME FROM App.js with "dispatch"
+
+// STEP 2
+// 2.2 Paste "dispatch" from App.js to returned function in "sendCartData"
+// 2.3 import "uiActions".
+// 2.4 Go for all code for sending the request and hendling the response.
+// 2.5 Execute this copyend code here after dispatching that first notification.
+// 2.6 Convert returned function to an async
+// 2.7 Go to App.js for a new code
+// 2.8 Execute this code.
+// 2.9 TAnd now when it comes to handling the potential errors, I will actually create a new function "const sendRequest = async () => {};", and put my code in this function (code of sending the response and hendling the response).
+// 2.10 Call this "sendRequest" function with await.
+// 2.11 Add "try catch" around await block and inside "catch(error)" block move "dispatch" with error notification. And with success above it block.
+//
+// GO TO App.js --->>>
+// 260 USING AN ACTION CREATOR THUNK
