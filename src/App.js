@@ -17,7 +17,7 @@ function App() {
       dispatch(
         uiActions.showNotification({
           status: "pending",
-          title: "Sending...",
+          title: "Sending!",
           message: "Sending cart data!",
         })
       );
@@ -30,11 +30,18 @@ function App() {
       );
 
       if (!response.ok) {
-        throw new Error("Sending cart data failed!");
+        throw new Error("Sending cart data failed");
       }
 
-      // const responseData = await response.json();
+      dispatch(
+        uiActions.showNotification({
+          status: "success",
+          title: "Success!",
+          message: "Sending cart data successfully!",
+        })
+      );
     };
+    sendCartData().catch();
   }, [cart]);
 
   return (
@@ -98,5 +105,8 @@ export default App;
 // 3.4 In "sendCartData" we initially dispatch UI action start "showNotification" /// "dispatch(uiActions.showNotification({}))" /// and pass an object to show "notification" where we set the status to pending (в ожидании); "title: "Sending...""; and "message:"...""
 // That could be the "notification" we wanna set now. I also want to dispatch an action once we're done. So once we got the response data.
 
-// 3.5 Rid the "const responseData = await response.json()" actually don't care about the response data in this case.
+// 3.5 Getting rid the "const responseData = await response.json()" actually don't care about the response data in this case, because for sending the card I'm not interesting in any response. Instead knowing that we don't have an error is enough. So then I want to "dispatch" a new notification where the status is success and it should be success because I'm using that instead of the notification component then to adjust the CSS classes.
+// Now, if we have an error, I also wanna dispatch and I'll do that instead of throwing an error I'll instead dispatch a new action where Isay error
+
+// 3.6 Go below this "sendCartData" function which we defined, executed under the "dispatch" with "success" message. And then call ".catch()" to catch any errors that might be thrown from inside this function since it's an async function, this send cart data function returns a promise,
 // 259 HANDLING HTTP STATES & FEEDBACK
