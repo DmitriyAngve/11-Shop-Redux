@@ -2,10 +2,17 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const uiSlice = createSlice({
   name: "ui",
-  initialState: { cartIsVisible: false },
+  initialState: { cartIsVisible: false, notification: null },
   reducers: {
     toggle(state) {
       state.cartIsVisible = !state.cartIsVisible;
+    },
+    showNotification(state, action) {
+      state.notification = {
+        status: action.payload.status,
+        title: action.payload.title,
+        message: action.payload.message,
+      };
     },
   },
 });
@@ -27,3 +34,18 @@ export default uiSlice;
 // GO TO index.js to create our store --->>>
 
 // 252 REFRESHER / PRACTICE
+
+//
+
+// 259 HANDLING HTTP STATES & FEEDBACK
+// STEP 2:
+// 2.2 We add more to the state we're managing with Redux and we managed the notification, which we showing with help of Redux now. Add "notification" property to initial state and I'll set it to null initially = > so that initially we have no "notification".
+// 2.3 Then we can add a new reducer, which we could call set "showNotification" where we get our "state", and we also use the "action", because I expect some action payload here, because the kind of "notification" that should be shown should be ebcoded in the action as a payload.
+// 2.4 Then there for a set "state.notification ={}" equal to an object.
+// 2.5 Add in that object "status" key, which I expect to get from my action payload, we all expect the status property and status could be something like pending error and success. /// "status: action.payload.status"
+// 2.6 Then we also expect a title, which we also get from the action payload and a message, which we also expect.
+// Now we want to dispatch these "showNotification" action, when we start sending the data, when we're done with the data and if we have an error.
+
+// For this we GO TO App.js --->>>
+
+// 259 HANDLING HTTP STATES & FEEDBACK

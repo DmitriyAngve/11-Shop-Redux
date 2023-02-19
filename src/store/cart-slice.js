@@ -78,3 +78,5 @@ export default cartSlice;
 // Don't perform a side effect inside of your reducer!!!!
 // Let's start with adding items to a cart from inside the product item component. That means that in here we have this add to cart handler and we could then not just dispatch an action to our Redux store but we could also send that data to Firebase to the backend. If we just send the product data to Firebase, so the data which we're sending to Redux here, if we just send that to Firebase, we would just store that product data in Firebase. But Firebase the way we are using it does not have any logic on its own on the backend. So on the Firebase backend we don't run any extra code. So if we send some product data there, that product data would simply be added to the database, but all the logic we have in the reducer for checking whether a product is already part of the cart, and if it is updating as quantity, if it's not adding it that kind of logic simply does not run on Firebase, because that's a pretty dumb backend here the way we're using it and therefore we don't have such logic there.
 // 255 FONTEND VS BACKEND CODE
+
+//

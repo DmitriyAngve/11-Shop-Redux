@@ -1,23 +1,40 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Cart from "./components/Cart/Cart";
 import Layout from "./components/Layout/Layout";
 import Products from "./components/Shop/Products";
+import { uiActions } from "./store/ui-slice";
 
 function App() {
+  const dispatch = useDispatch();
+
   const showCart = useSelector((state) => state.ui.cartIsVisible);
   const cart = useSelector((state) => state.cart);
 
-  // https://react-reduxtk-ordermeals-default-rtdb.firebaseio.com/cart.json
   useEffect(() => {
-    fetch(
-      "https://react-reduxtk-ordermeals-default-rtdb.firebaseio.com/cart.json",
-      {
-        method: "PUT",
-        body: JSON.stringify(cart),
+    const sendCartData = async () => {
+      dispatch(
+        uiActions.showNotification({
+          status: "pending",
+          title: "Sending...",
+          message: "Sending cart data!",
+        })
+      );
+      const response = await fetch(
+        "https://react-reduxtk-ordermeals-default-rtdb.firebaseio.com/cart.json",
+        {
+          method: "PUT",
+          body: JSON.stringify(cart),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Sending cart data failed!");
       }
-    );
+
+      // const responseData = await response.json();
+    };
   }, [cart]);
 
   return (
@@ -62,5 +79,24 @@ export default App;
 
 // 259 HANDLING HTTP STATES & FEEDBACK
 // STEP 1:
-// To handle  the response and potential errors, I addet a new Component
+// 1.1 To handle  the response and potential errors, I addet a new Component "Notification.js"
+// 1.2 On fetch, we can simply add then or we yse async await, since we were in use effect though, we should not add async in "useEffect", but instead wrapped us in a separate fetch then => add a new function in "useEffect" and remove fetch function inside of it.
+// 1.3 Added async and await /// "const response =  await fetch(..."
+// 1.4 Then we get the response we can get our "responseData" by awaiting response.json() /// "const responseData = await response.json();"
+// 1.5 Add "ifcheck" of the response maybe bot okay => hence we have errors. So we might want to throw a new error. /// "throw new Error("Sending cart data failed!");" /// If we make it past this line we know that we were successful.
+// NThen we know that we, well should show that success notification. Actually we weanna show notification right from the start when we start sending.
+// 1.6 For this we could import use state and set up some local state and this component, some is loading state and maybe an error state. We set those states as part of our HTTP requests cycle, and we then use those states of conditionally render the notification component with the appropriate content.
+// Since we already have a UI slice in Redux we add it all there
+
+// GO TO cart-slice.js --- >>>
+
+// CAME FROM ui-slice.js
+// STEP 3:
+// 3.1 Import "useDispatch" to get access to that "dispatch" function
+// 3.2 Call "dispatch" in "App()" component.
+// 3.3 Import "uiActions" from the store "import { uiActions } from "./store/ui-slice""
+// 3.4 In "sendCartData" we initially dispatch UI action start "showNotification" /// "dispatch(uiActions.showNotification({}))" /// and pass an object to show "notification" where we set the status to pending (в ожидании); "title: "Sending...""; and "message:"...""
+// That could be the "notification" we wanna set now. I also want to dispatch an action once we're done. So once we got the response data.
+
+// 3.5 Rid the "const responseData = await response.json()" actually don't care about the response data in this case.
 // 259 HANDLING HTTP STATES & FEEDBACK
