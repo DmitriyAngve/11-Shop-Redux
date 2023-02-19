@@ -7,6 +7,8 @@ import Products from "./components/Shop/Products";
 import { uiActions } from "./store/ui-slice";
 import Notification from "./components/UI/Notification";
 
+let isInitial = true;
+
 function App() {
   const dispatch = useDispatch();
   const showCart = useSelector((state) => state.ui.cartIsVisible);
@@ -42,6 +44,11 @@ function App() {
         })
       );
     };
+
+    if (isInitial) {
+      isInitial = false;
+      return;
+    }
 
     sendCartData().catch((error) => {
       dispatch(
@@ -140,4 +147,8 @@ export default App;
 // And only render notification if we have a notification.
 // 4.4 Now I'll check if notification is truthy, and only if it is I render "notification" /// "{notification && <Notification />}"
 // 4.5 And then I set the status (it's from ui-slice.js): "status={notification.status}" and for "title" and "message".
+
+// STEP 5:
+// 5.1 I wanna make sure that we don't send the cart when this runs for the first time. For impementing this we could add a variable here outside of our function ("App") /// "let isInitial = true;" - defined outside and doesn't change, and it's not re initialized if the compoennt renders again! (this e initialized when this file is parsed for the first time)
+// 5.2 I can use this initial to check if "isInitial" and if that's the case I'll return. I'll not continue so I'll not send my cart data. - this only blocks this cart data from being sent the first time this effect executes so application started.
 // 259 HANDLING HTTP STATES & FEEDBACK
