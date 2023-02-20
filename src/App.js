@@ -5,7 +5,7 @@ import Cart from "./components/Cart/Cart";
 import Layout from "./components/Layout/Layout";
 import Products from "./components/Shop/Products";
 import Notification from "./components/UI/Notification";
-import { sendCartData } from "./store/cart-slice";
+import { sendCartData, fetchCartData } from "./store/cart-actions";
 
 let isInitial = true;
 
@@ -14,6 +14,10 @@ function App() {
   const showCart = useSelector((state) => state.ui.cartIsVisible);
   const cart = useSelector((state) => state.cart);
   const notification = useSelector((state) => state.ui.notification);
+
+  useEffect(() => {
+    dispatch(fetchCartData());
+  }, [dispatch]);
 
   useEffect(() => {
     if (isInitial) {
@@ -139,3 +143,14 @@ export default App;
 // 3.5 In here in "useEffect" I dispatch "sendCartData" /// "dispatch(sendCartData(cart));"
 // 3.6 And execute this "sendCartData" and pass my "cart" as an argument.
 // 260 USING AN ACTION CREATOR THUNK
+
+//
+
+// 261 GETTING STARTED WITH FETCHING DATA
+// CAME FROM cart-actions.js
+// STEP 3:
+// Here I already have a "useEffect" call and that we wanna start fetching data here, if the application loads
+// 3.1 Аor the cleanliness of the code, we will create a sepaate "useEffect", which simply doesn't have any dependencies and which therefore all they will only run if this component was rendered for the first time and since it's our main component this will only render once. ///  useEffect(() => {dispatch();}, []);
+// 3.2 Dispatch this new "cartAction" created, this custom "cartAction", so "fetchCartData" action /// "import { sendCartData, fetchCartData } from "./store/cart-actions";" /// Add in my new "useEffect" as argument of dispatch.
+// 3.3 Add "dispatch" into array as a dependency. But I know - this effect will never change, this effect will never rerun. Andf that "dispatch(fetchCartData)" this whenever our application starts.
+// 261 GETTING STARTED WITH FETCHING DATA

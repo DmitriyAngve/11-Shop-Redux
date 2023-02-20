@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { uiActions } from "./ui-slice";
+// import { uiActions } from "./ui-slice";
 
 const cartSlice = createSlice({
   name: "cart",
@@ -37,51 +37,6 @@ const cartSlice = createSlice({
     },
   },
 });
-
-export const sendCartData = (cart) => {
-  return async (dispatch) => {
-    dispatch(
-      uiActions.showNotification({
-        status: "pending",
-        title: "Sending!",
-        message: "Sending cart data!",
-      })
-    );
-
-    const sendRequest = async () => {
-      const response = await fetch(
-        "https://react-reduxtk-ordermeals-default-rtdb.firebaseio.com/cart.json",
-        {
-          method: "PUT",
-          body: JSON.stringify(cart),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Sending cart data failed");
-      }
-    };
-
-    try {
-      await sendRequest();
-      dispatch(
-        uiActions.showNotification({
-          status: "success",
-          title: "Success!",
-          message: "Sending cart data successfully!",
-        })
-      );
-    } catch (error) {
-      dispatch(
-        uiActions.showNotification({
-          status: "error",
-          title: "Error!",
-          message: "Sending cart data failed!",
-        })
-      );
-    }
-  };
-};
 
 export const cartActions = cartSlice.actions;
 
@@ -154,3 +109,10 @@ export default cartSlice;
 //
 // GO TO App.js --->>>
 // 260 USING AN ACTION CREATOR THUNK
+
+// 261 GETTING STARTED WITH FETCHING DATA
+// STEP: 1
+// Let's start build a app action creator that fetches the cart when the application loads. Because at the moment we're only sending data, but we never fetched data when the application load, if we reload, all our state is still lost, that's not the goal. We can ride that code in the component or as action creator, but here I now wanna stick to action creators amd hence we can add a second function cart slice.
+// Let's create a new file - cart-actions.js GO TO ---->>>
+// Before to go out cut "sendCartData" function and paste into new file cart-actions.js
+// 261 GETTING STARTED WITH FETCHING DATA
