@@ -20,7 +20,6 @@ const uiSlice = createSlice({
 export const uiActions = uiSlice.actions;
 
 export default uiSlice;
-
 // 252 REFRESHER / PRACTICE
 // STEP 2:
 // 2.1 "import createSlice" first.
