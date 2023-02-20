@@ -48,7 +48,6 @@ function App() {
 }
 
 export default App;
-
 // 252 REFRESHER / PRACTICE
 // CAME FROM CartButton.js
 // STEP 6:

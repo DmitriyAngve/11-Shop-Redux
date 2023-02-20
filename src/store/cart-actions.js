@@ -100,3 +100,9 @@ export const sendCartData = (cart) => {
 // With all that done, we now just need to call fetch "cartData" to start fetching our "cartData" from Firebase. App.js is a good place for that.
 // GO TO App.js --->>>
 // 261 GETTING STARTED WITH FETCHING DATA
+
+// 262 FINALIZING THE FETCHING LOGIC
+// STEP 3:
+// Where we send our cart data, instead of taking the whole cart, we could create a new objects, where we then just use items from cart items and just and "totalQuantity" from "cart.totalQuantity".
+// This new object does not contain "changed"
+// 262 FINALIZING THE FETCHING LOGIC
