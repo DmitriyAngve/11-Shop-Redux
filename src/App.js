@@ -25,9 +25,7 @@ function App() {
       return;
     }
 
-    if (cart.changed) {
-      dispatch(sendCartData(cart));
-    }
+    dispatch(sendCartData(cart));
   }, [cart, dispatch]);
 
   return (
@@ -156,3 +154,11 @@ export default App;
 // 3.2 Dispatch this new "cartAction" created, this custom "cartAction", so "fetchCartData" action /// "import { sendCartData, fetchCartData } from "./store/cart-actions";" /// Add in my new "useEffect" as argument of dispatch.
 // 3.3 Add "dispatch" into array as a dependency. But I know - this effect will never change, this effect will never rerun. Andf that "dispatch(fetchCartData)" this whenever our application starts.
 // 261 GETTING STARTED WITH FETCHING DATA
+
+//
+
+// 262 FINALIZING THE FETCHING LOGIC
+// Let's fix the issue where we automaticall resent the cart, when the application loaded.
+// First solution in our cart-slice.js
+// GO TO cart-slice.js --->>>
+// 262 FINALIZING THE FETCHING LOGIC

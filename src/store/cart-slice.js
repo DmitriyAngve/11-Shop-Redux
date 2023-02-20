@@ -123,3 +123,13 @@ export default cartSlice;
 // Let's create a new file - cart-actions.js GO TO ---->>>
 // Before to go out cut "sendCartData" function and paste into new file cart-actions.js
 // 261 GETTING STARTED WITH FETCHING DATA
+
+// 262 FINALIZING THE FETCHING LOGIC
+// CAME FROM App.js
+// STEP 1:
+// 1.1 In "initialState" add a "changed" property, which is "false".
+// 1.2 And we don't change this if we replaced a cart, but we do changed it if we add or remove items, to or from the cart, then we set state.changed to true. /// "state.changed = true;" inside of addItemToCart.
+// 1.3 And "removeItemFromCart" and "addItemToCart", are only executed from our local application.
+// So if we fetch data from Firebase, where we then execute "replaceCart" - "changed" will not change. it will stay "false"
+// GO TO App.js --->>>
+// 262 FINALIZING THE FETCHING LOGIC
