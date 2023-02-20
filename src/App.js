@@ -25,7 +25,9 @@ function App() {
       return;
     }
 
-    dispatch(sendCartData(cart));
+    if (cart.changed) {
+      dispatch(sendCartData(cart));
+    }
   }, [cart, dispatch]);
 
   return (
@@ -161,4 +163,11 @@ export default App;
 // Let's fix the issue where we automaticall resent the cart, when the application loaded.
 // First solution in our cart-slice.js
 // GO TO cart-slice.js --->>>
+
+// CAME FROM cart-slice.js
+// STEP 2:
+// 2.1 Here, after added "changed:false" in "initialState" we can also add "ifcheck" before the "dispatch" inside of "useEffect". So... if cart changed property if it's true, we wanna dispatch and send the cart data.
+// 2.2 After this manipulation "changed" property is now all the part of Firebase, because we're sending the overall cart state, as it's stored by Redux to Firebase.
+// If we wwould vanna avoid this, we could go to the cart-actions.js --->>>
+// GO TO cart-actions.js --->>>
 // 262 FINALIZING THE FETCHING LOGIC
