@@ -68,7 +68,6 @@ export default cartSlice;
 // 252 REFRESHER / PRACTICE
 
 ///////////////////////////////////////////////////
-
 // 253 REFRESHER / PRACTICE
 // STEP 1:
 // 1.1 For removeItems from the cart we wanna get a "state" and "action", because we'll get some extra payload that heps us identify the ite, that should be removed. Add "state" and "action" /// "removeItemFromCart(state, action) {},"
