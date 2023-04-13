@@ -1,4 +1,4 @@
-# Redux-second-project / 11 - Shop-redux
+# 11 - Shop-redux
 
 In this small application, I learned how to use Redux, Redux Toolkit in conjunction with React. How to run async code with Redux. How to handle side effects. PUT and POST methods implemented. I demostrate how easy it is to manage state, reducers and actions with Redux Toolkit instead of having to set up everything on your own.
 I was using core Redux concepts (using "configureStore" for creating of Central Data Store and argument as reducers, merging reducers and other core concepts...)
